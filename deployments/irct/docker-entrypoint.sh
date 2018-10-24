@@ -84,6 +84,24 @@ EOSQL
         );
 EOSQL
 
+    # add i2b2 resource with default credentials
+    psql $PSQL_PARAMS -d $IRCT_DB_NAME <<-EOSQL
+        select add_i2b2_resource(
+            'i2b2-srv0-local',
+            'http://i2b2-medco-srv0:8080/i2b2/services/',
+            '',
+            '',
+            '',
+            'i2b2medcosrv0',
+            'demo',
+            'demouser',
+            'false',
+            'false',
+            'edu.harvard.hms.dbmi.bd2k.irct.ri.i2b2.I2B2XMLResourceImplementation',
+            'TREE'
+        );
+EOSQL
+
     # add medco resource local using default credentials
     psql $PSQL_PARAMS -d $IRCT_DB_NAME <<-EOSQL
         select add_i2b2_medco_resource(
