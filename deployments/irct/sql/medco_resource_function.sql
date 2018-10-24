@@ -24,6 +24,7 @@ BEGIN
   insert into IRCT_Resource_dataTypes(Resource_id, datatypes) values(resourceId, 'edu.harvard.hms.dbmi.bd2k.irct.ri.medco.I2B2MedCoDataType:ENC_CONCEPT_NUMERIC');
   insert into IRCT_Resource_dataTypes(Resource_id, datatypes) values(resourceId, 'edu.harvard.hms.dbmi.bd2k.irct.ri.medco.I2B2MedCoDataType:ENC_CONCEPT_ENUM');
   insert into IRCT_Resource_dataTypes(Resource_id, datatypes) values(resourceId, 'edu.harvard.hms.dbmi.bd2k.irct.ri.medco.I2B2MedCoDataType:ENC_CONCEPT_STRING');
+  insert into IRCT_Resource_dataTypes(Resource_id, datatypes) values(resourceId, 'edu.harvard.hms.dbmi.bd2k.irct.ri.medco.I2B2MedCoDataType:GENOMIC_ANNOTATION');
 
   containsId := (select IRCT_PredicateType.id from IRCT_PredicateType, IRCT_Resource_PredicateType where
     IRCT_Resource_PredicateType.Resource_Id = resourceId and

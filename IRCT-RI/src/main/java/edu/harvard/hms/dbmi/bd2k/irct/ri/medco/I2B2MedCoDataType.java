@@ -54,6 +54,17 @@ public enum I2B2MedCoDataType implements DataType {
 		public String getDescription() {
 			return "Encrypted Concept String Value";
 		}
+	},
+	GENOMIC_ANNOTATION {
+		@Override
+		public String getName() {
+			return "genomic_annotation";
+		}
+
+		@Override
+		public String getDescription() {
+			return "Genomic Annotation Value";
+		}
 	};
 
 	public static I2B2MedCoDataType fromI2B2DataType(I2B2DataType type) {

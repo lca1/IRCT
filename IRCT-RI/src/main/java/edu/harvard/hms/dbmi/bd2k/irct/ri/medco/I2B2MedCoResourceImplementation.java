@@ -48,7 +48,9 @@ public class I2B2MedCoResourceImplementation extends I2B2XMLResourceImplementati
     protected List<String> medcoCellsURL;
     protected List<String> domains;
 
-    public static final String MEDCO_ENC_ONT = "ENC_ID";
+    public static final String
+            MEDCO_ENC_ONT = "ENC_ID",
+            MEDCO_GENOMIC_ANNOTATION_ONT = "GEN";
 
     public static final int THREAD_TIMEOUT_MS = 30 * 60 * 1000;
 
@@ -91,6 +93,8 @@ public class I2B2MedCoResourceImplementation extends I2B2XMLResourceImplementati
         for (Entity entity: returnEntities) {
             if (entity.getOntology().equals(MEDCO_ENC_ONT)) {
                 entity.setDataType(I2B2MedCoDataType.fromI2B2DataType((I2B2DataType) entity.getDataType()));
+            } else if (entity.getOntology().equals(MEDCO_GENOMIC_ANNOTATION_ONT)) {
+                entity.setDataType(I2B2MedCoDataType.GENOMIC_ANNOTATION);
             }
         }
         return returnEntities;
@@ -154,12 +158,6 @@ public class I2B2MedCoResourceImplementation extends I2B2XMLResourceImplementati
             result.setMessage("runQuery() Exception:"+e.getMessage());
             return result;
         }
-
-        // todo: another hack
-        // the projectId extracted before is "MedCo", which should be used for the ontology browsing
-        // for the query, the projectId to use is the one that contains the observation_fact we want to query
-        // for now it is the default project from the i2b2 demo data
-        projectId = "Demo";
 
         // hackish workaround: the encrypted value in base64 just got its '/' turned into '\' -> reverse that
         // todo: use base64URL in unlynx (server + loader + client js)
