@@ -168,9 +168,7 @@ public class I2B2MedCoResourceImplementation extends I2B2XMLResourceImplementati
                     String encVal = item.getItemKey().substring(prefix.length());
                     item.setItemKey(prefix + encVal.replace('\\', '/'));
 
-                } else if (item.getItemKey().startsWith("\\\\CLINICAL_NON_SENSITIVE\\")) {
-                    // todo: yet another hack, to match the local ontology
-                    item.setItemKey(item.getItemKey().replace("\\\\CLINICAL_NON_SENSITIVE\\", "\\\\NON_SENSITIVE_CLEAR\\"));
+                    item.setItemName(null);
                 }
             }
         }

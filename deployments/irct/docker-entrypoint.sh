@@ -109,7 +109,7 @@ EOSQL
             'http://i2b2-medco-srv0:8080/i2b2/services/,http://i2b2-medco-srv1:8080/i2b2/services/,http://i2b2-medco-srv2:8080/i2b2/services/',
             'i2b2medcosrv0,i2b2medcosrv1,i2b2medcosrv2',
             'medcouser',
-            'prigen2017',
+            'demouser',
             'true',
             'false',
             'edu.harvard.hms.dbmi.bd2k.irct.ri.medco.I2B2MedCoResourceImplementation',
