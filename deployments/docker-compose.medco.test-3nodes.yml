@@ -26,7 +26,7 @@ services:
       - WILDFLY_ADMIN_PASSWORD=admin
       - IRCT_CLIENT_SECRET=nosecret
       - CORS_ENABLED=true
-      - CORS_ALLOW_ORIGIN=http://iccluster046.iccluster.epfl.ch:4200
+      - CORS_ALLOW_ORIGIN=http://iccluster046.iccluster.epfl.ch:82
     volumes:
       - ../:/irct-src
       - mvn-repo:/opt/jboss/.m2/repository
