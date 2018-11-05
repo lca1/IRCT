@@ -52,6 +52,8 @@ public class I2B2MedCoResourceImplementation extends I2B2XMLResourceImplementati
             MEDCO_ENC_ONT = "ENC_ID",
             MEDCO_GENOMIC_ANNOTATION_ONT = "GEN";
 
+    public static final String MEDCO_ENC_KEY_PREFIX = "\\\\ENCRYPTED_KEY\\";
+
     public static final int THREAD_TIMEOUT_MS = 30 * 60 * 1000;
 
     /**
@@ -159,18 +161,20 @@ public class I2B2MedCoResourceImplementation extends I2B2XMLResourceImplementati
             return result;
         }
 
-        // hackish workaround: the encrypted value in base64 just got its '/' turned into '\' -> reverse that
-        // todo: use base64URL in unlynx (server + loader + client js)
+        // sanitize item by keeping only the encrypted key
         for (PanelType panel: panels) {
+            List<ItemType> sanitizedItems = new ArrayList<>(panel.getItem().size());
             for (ItemType item: panel.getItem()) {
-                String prefix = "\\\\ENCRYPTED_KEY\\";
-                if (item.getItemKey().startsWith(prefix)) {
-                    String encVal = item.getItemKey().substring(prefix.length());
-                    item.setItemKey(prefix + encVal.replace('\\', '/'));
-
-                    item.setItemName(null);
+                if (item.getItemKey().startsWith(MEDCO_ENC_KEY_PREFIX)) {
+                    ItemType sanitizedItem = new ItemType();
+                    sanitizedItem.setItemKey(item.getItemKey());
+                    sanitizedItems.add(sanitizedItem);
+                } else {
+                    sanitizedItems.add(item);
                 }
             }
+            panel.getItem().clear();
+            panel.getItem().addAll(sanitizedItems);
         }
 
         final ResultOutputOptionListType roolt = new ResultOutputOptionListType();
