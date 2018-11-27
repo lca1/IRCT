@@ -14,7 +14,7 @@ done
 
 # load initial data if database does not exist (credentials must be valid and have create database right)
 DB_CHECK=`psql $PSQL_PARAMS -d postgres -X -A -t -c "select count(*) from pg_database where datname = '${IRCT_DB_NAME}';"`
-if [ "$DB_CHECK" -ne "1" ]; then
+if [[ "$DB_CHECK" -ne "1" ]]; then
 echo "Initialising IRCT database"
     psql $PSQL_PARAMS -d postgres <<-EOSQL
         CREATE DATABASE ${IRCT_DB_NAME};
@@ -131,8 +131,22 @@ EOSQL
             'TREE'
         );
 EOSQL
-fi
 
+    # end-to-end test resource
+    psql $PSQL_PARAMS -d $IRCT_DB_NAME <<-EOSQL
+        select add_i2b2_medco_resource(
+            'i2b2-medco-e2etest',
+            'http://i2b2-medco-srv0:8080/i2b2/services/,http://i2b2-medco-srv1:8080/i2b2/services/,http://i2b2-medco-srv2:8080/i2b2/services/',
+            'i2b2medcosrv0,i2b2medcosrv1,i2b2medcosrv2',
+            'e2etest',
+            'e2etest',
+            'true',
+            'false',
+            'edu.harvard.hms.dbmi.bd2k.irct.ri.medco.I2B2MedCoResourceImplementation',
+            'TREE'
+        );
+EOSQL
+fi
 
 # set admin password & run wildfly
 $JBOSS_HOME/bin/add-user.sh admin $WILDFLY_ADMIN_PASSWORD --silent || true
