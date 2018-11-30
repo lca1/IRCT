@@ -68,6 +68,10 @@ public enum I2B2MedCoDataType implements DataType {
 	};
 
 	public static I2B2MedCoDataType fromI2B2DataType(I2B2DataType type) {
+		if (type == null) {
+			return null;
+		}
+
 	    switch (type) {
             case CONCEPT:
                 return ENC_CONCEPT;

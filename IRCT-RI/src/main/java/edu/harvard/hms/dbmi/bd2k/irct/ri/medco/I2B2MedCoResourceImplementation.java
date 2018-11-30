@@ -93,8 +93,27 @@ public class I2B2MedCoResourceImplementation extends I2B2XMLResourceImplementati
     public List<Entity> getPathRelationship(Entity path, OntologyRelationship relationship, User user) throws ResourceInterfaceException {
         List<Entity> returnEntities = super.getPathRelationship(path, relationship, user);
         for (Entity entity: returnEntities) {
+
             if (entity.getOntology().equals(MEDCO_ENC_ONT)) {
+
                 entity.setDataType(I2B2MedCoDataType.fromI2B2DataType((I2B2DataType) entity.getDataType()));
+                entity.getAttributes().put("encrypt.nodeid", entity.getOntologyId());
+                entity.getAttributes().put("encrypt.type", "CONCEPT_LEAF");
+
+            } else if (
+                entity.getAttributes().containsKey("metadataxml") &&
+                ((Map<String, Object>) entity.getAttributes().get("metadataxml")).containsKey("ValueMetadata") &&
+                ((Map<String, Object>) ((Map<String, Object>) entity.getAttributes().get("metadataxml"))
+                        .get("ValueMetadata")).containsKey("EncryptedType")
+            ) {
+                Map<String, Object> valMetadata = (Map<String, Object>) ((Map<String, Object>)
+                        entity.getAttributes().get("metadataxml")).get("ValueMetadata");
+
+                entity.setDataType(I2B2MedCoDataType.fromI2B2DataType((I2B2DataType) entity.getDataType()));
+                entity.getAttributes().put("encrypt.nodeid", valMetadata.get("NodeEncryptID"));
+                entity.getAttributes().put("encrypt.childrenids", valMetadata.get("ChildrenEncryptIDs"));
+                entity.getAttributes().put("encrypt.type", valMetadata.get("EncryptedType"));
+
             } else if (entity.getOntology().equals(MEDCO_GENOMIC_ANNOTATION_ONT)) {
                 entity.setDataType(I2B2MedCoDataType.GENOMIC_ANNOTATION);
             }
