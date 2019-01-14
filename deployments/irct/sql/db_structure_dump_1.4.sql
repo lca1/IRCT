@@ -474,7 +474,7 @@ ALTER TABLE irct_resource_logicaloperator OWNER TO irct;
 
 CREATE TABLE irct_resource_parameters (
     id bigint NOT NULL,
-    value character varying(255),
+    value character varying(1023),
     name character varying(255) NOT NULL
 );
 
