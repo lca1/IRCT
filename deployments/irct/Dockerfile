@@ -34,7 +34,8 @@ RUN sed -i 's/Xmx512m/Xmx1024m/g' $JBOSS_HOME/bin/standalone.conf && \
     yum update -y && \
     yum -y install wget git centos-release-scl postgresql && \
     yum -y install rh-maven35 && \
-    yum clean all
+    yum clean all && \
+    usermod --shell /bin/bash jboss
 COPY install-irct.sh docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/install-irct.sh /usr/local/bin/docker-entrypoint.sh
 COPY standalone.xml "$JBOSS_HOME/standalone/configuration/"
@@ -51,5 +52,6 @@ RUN mkdir -p /opt/jboss/.m2/repository && \
 VOLUME  $IRCT_SRC_DIR \
         $JBOSS_HOME/.m2/repository
 
+USER root
 EXPOSE 8080 9990
 ENTRYPOINT docker-entrypoint.sh

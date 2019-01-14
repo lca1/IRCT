@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
+# import certificates in trust store
+if [[ `ls -1 *.crt 2>/dev/null | wc -l` != 0 ]]; then
+    cp /certificates/*.crt /etc/pki/ca-trust/source/anchors/
+    update-ca-trust extract
+fi
+
+# continue as jboss user
+su jboss
+
 # install IRCT from latest sources
 install-irct.sh
 

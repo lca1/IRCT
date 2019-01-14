@@ -31,6 +31,7 @@ services:
     volumes:
       - ../:/irct-src
       - mvn-repo:/opt/jboss/.m2/repository
+      - ./irct/volumes/certificates:/certificates
 
 volumes:
   mvn-repo:
