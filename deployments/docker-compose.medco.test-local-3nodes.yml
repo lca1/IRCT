@@ -39,7 +39,7 @@ volumes:
 networks:
   medco-network:
     external:
-      name: dev-local-3nodes_medco-network
+      name: test-local-3nodes_medco-network
   keycloak-network:
     external:
-      name: dev-local-3nodes_keycloak-network
+      name: test-local-3nodes_keycloak-network
