@@ -1,0 +1,38 @@
+version: '2.2'
+services:
+  irct:
+    build:
+      context: ./irct/
+    networks:
+      - medco-network
+    environment:
+      - IRCT_DB_HOST=postgresql
+      - IRCT_DB_PORT=5432
+      - IRCT_DB_NAME=irct
+      - IRCT_DB_USER=irct
+      - IRCT_DB_PW=irct
+      - IRCT_OIDC_ADDR=keycloak
+      - IRCT_OIDC_REDIRECT=/IRCT-UI/token.html
+      - IRCT_OIDC_CLIENT_ID=irct
+      - IRCT_OIDC_CLIENT_SECRET=rCwDRtQM510Du5bYGCHfLClM8XMph95aJwNsCr6MAucIiSxGeN5pcni3QRJqlYcc
+      - IRCT_OIDC_USER_FIELD=preferred_username
+      - IRCT_KEY_TIMEOUT=720
+      - IRCT_WHITELIST_FILE=false
+      - IRCT_RESULT_DATA_FOLDER=/opt/jboss/irct-results
+      - IRCT_OIDC_JWKS_ADDR=http://keycloak:8080/auth/realms/master/protocol/openid-connect/certs
+      - WILDFLY_ADMIN_PASSWORD=admin
+      - IRCT_CLIENT_SECRET=nosecret
+      - CORS_ENABLED=true
+      - CORS_ALLOW_ORIGIN=${MEDCO_NODE_URL}
+    volumes:
+      - ../:/irct-src
+      - mvn-repo:/opt/jboss/.m2/repository
+      - ./irct/volumes/certificates:/certificates
+
+volumes:
+  mvn-repo:
+
+networks:
+  medco-network:
+    external:
+      name: ${MEDCO_PROFILE_NAME}_default
